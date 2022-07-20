@@ -7,7 +7,7 @@
 
 const WIDTH = 7;
 const HEIGHT = 6;
-let hashmap = new Map(); //keep track of column
+let columnMap = new Map(); //keep track of column
 let currPlayer = 1; // active player: 1 or 2
 let board = []; // array of rows, each row is array of cells  (board[y][x])
 
@@ -57,17 +57,17 @@ function makeHtmlBoard() {
 
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 0
-  if (hashmap.has(x)){
-    if(hashmap.get(x)==0)
+  if (columnMap.has(x)){
+    if (columnMap.get(x)==0)
     {
       return null;
     }
-    hashmap.set(x,hashmap.get(x)-1)
+   columnMap.set(x,columnMap.get(x)-1)
   }
   else{
-    hashmap.set(x,5)
+   columnMap.set(x,HEIGHT-1)
   }
-  return hashmap.get(x)
+  return columnMap.get(x)
 }
 /** placeInTable: update DOM to place piece into HTML table of board */
 
@@ -76,12 +76,9 @@ function placeInTable(y, x) {
   const piece = document.createElement('div');
   piece.setAttribute('class','piece')
   // witching player 1 and 2 while adding in the piece
-  if (currPlayer==1){
-   piece.classList.add('p1')
-  }
-  else{
-    piece.classList.add('p2')
-  }
+
+   piece.classList.add(`${currPlayer}`)
+
   boardPosition.append(piece)
 }
 
@@ -118,7 +115,7 @@ function handleClick(evt) {
   board.every(row => row.every(cell => cell!=null))? endGame('Tie'):null;
   // switch players
   // switch currPlayer 1 <-> 2
-  currPlayer= currPlayer==1? 2:1 
+  currPlayer= currPlayer==1? 2:1 ;
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
